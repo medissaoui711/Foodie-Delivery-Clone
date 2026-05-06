@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Foodie Driver App</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--primary:#00ccb4;--primary-dark:#00a896;--primary-light:#e6faf8;--dark:#0d1117;--white:#fff;--border:#e5e7eb;--muted:#6b7280;--danger:#ef4444;--success:#22c55e;--warning:#f59e0b;--card:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:#f0f2f5;color:var(--dark);max-width:430px;margin:0 auto;min-height:100vh;}
+.app{display:flex;flex-direction:column;min-height:100vh;background:white;}
+
+/* HEADER */
+.header{background:var(--dark);color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
+.header-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;}
+.header-logo em{color:var(--primary);font-style:normal;}
+.online-toggle{display:flex;align-items:center;gap:10px;}
+.online-label{font-size:13px;color:rgba(255,255,255,.7);}
+.switch{position:relative;width:52px;height:28px;}
+.switch input{opacity:0;width:0;height:0;}
+.slider{position:absolute;cursor:pointer;inset:0;background:#444;border-radius:28px;transition:.3s;}
+.slider:before{content:'';position:absolute;height:22px;width:22px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.3s;}
+input:checked + .slider{background:var(--primary);}
+input:checked + .slider:before{transform:translateX(24px);}
+
+/* STATUS BAR */
+.status-bar{padding:12px 20px;background:var(--dark);border-top:1px solid rgba(255,255,255,.08);display:flex;gap:24px;}
+.status-item{text-align:center;}
+.status-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:white;}
+.status-lbl{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;}
+
+/* MAP */
+.map-area{height:220px;background:linear-gradient(135deg,#1a2a2a,#0d1117);display:flex;align-items:center;justify-content:center;flex-direction:column;color:rgba(255,255,255,.5);gap:8px;position:relative;}
+.map-pin{position:absolute;font-size:32px;animation:bounce 1.5s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.map-label{font-size:13px;}
+.map-gps{position:absolute;bottom:12px;right:12px;background:white;border:none;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;color:var(--dark);}
+
+/* MAIN CONTENT */
+.content{flex:1;overflow-y:auto;padding:20px;}
+
+/* EARNINGS */
+.earnings-card{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:16px;padding:20px;margin-bottom:20px;}
+.earnings-label{font-size:13px;opacity:.8;margin-bottom:4px;}
+.earnings-amount{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;}
+.earnings-sub{font-size:13px;opacity:.7;margin-top:4px;}
+.earnings-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.earnings-stat{background:rgba(255,255,255,.15);border-radius:10px;padding:12px;}
+.e-stat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;}
+.e-stat-lbl{font-size:12px;opacity:.7;}
+
+/* ORDER CARD */
+.section-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;}
+.order-card{background:white;border-radius:16px;border:1.5px solid var(--border);padding:18px;margin-bottom:14px;}
+.order-card.new-order{border-color:var(--primary);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,204,180,.3)}50%{box-shadow:0 0 0 8px rgba(0,204,180,0)}}
+.order-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.order-num{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;}
+.order-earn{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--primary);}
+.order-rest{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.order-rest-icon{font-size:24px;}
+.order-rest-name{font-weight:600;font-size:15px;}
+.order-rest-addr{font-size:12px;color:var(--muted);}
+.divider{height:1px;background:var(--border);margin:12px 0;}
+.order-dest{display:flex;align-items:center;gap:8px;}
+.dest-icon{width:28px;height:28px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.dest-info{flex:1;}
+.dest-label{font-size:11px;color:var(--muted);margin-bottom:2px;}
+.dest-addr{font-size:14px;font-weight:500;}
+.order-meta{display:flex;gap:16px;margin-top:12px;}
+.meta-item{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--muted);}
+.order-actions{display:flex;gap:8px;margin-top:14px;}
+.btn{padding:10px 18px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;flex:1;text-align:center;}
+.btn-primary{background:var(--primary);color:white;}
+.btn-primary:hover{background:var(--primary-dark);}
+.btn-danger{background:#fee2e2;color:var(--danger);}
+.btn-outline{background:white;border:1.5px solid var(--border);color:var(--dark);}
+.btn-full{background:var(--primary);color:white;width:100%;padding:14px;border-radius:12px;font-size:16px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;border:none;margin-top:12px;}
+
+/* STATUS STEPS */
+.step-indicator{display:flex;align-items:center;gap:0;margin:12px 0;}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;}
+.step::after{content:'';position:absolute;top:14px;left:50%;width:100%;height:2px;background:var(--border);}
+.step:last-child::after{display:none;}
+.step.done::after{background:var(--primary);}
+.step-dot{width:28px;height:28px;border-radius:50%;background:var(--border);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;z-index:1;position:relative;transition:all .3s;}
+.step.done .step-dot{background:var(--primary);border-color:var(--primary);color:white;}
+.step.active .step-dot{background:white;border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light);}
+.step-lbl{font-size:10px;color:var(--muted);margin-top:4px;text-align:center;}
+
+/* BOTTOM NAV */
+.bottom-nav{background:white;border-top:1px solid var(--border);display:flex;padding:8px 0 env(safe-area-inset-bottom);}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;cursor:pointer;font-size:11px;color:var(--muted);background:none;border:none;font-family:'DM Sans',sans-serif;transition:color .2s;}
+.nav-btn.active{color:var(--primary);}
+.nav-btn svg,.nav-btn .icon{font-size:20px;}
+
+/* HISTORY */
+.history-item{display:flex;align-items:center;gap:12px;padding:14px;background:white;border-radius:12px;border:1px solid var(--border);margin-bottom:10px;}
+.history-icon{width:40px;height:40px;background:var(--primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.history-info{flex:1;}
+.history-earn{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--primary);}
+
+/* OFFLINE OVERLAY */
+.offline-overlay{position:absolute;inset:0;background:rgba(255,255,255,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:10;}
+.offline-msg{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--muted);}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:500;display:flex;flex-direction:column;align-items:center;gap:8px;width:90%;max-width:380px;}
+.toast{background:#1f2937;color:white;padding:12px 18px;border-radius:10px;font-size:14px;text-align:center;animation:fadeUp .3s ease;box-shadow:0 4px 20px rgba(0,0,0,.2);width:100%;}
+.toast.success{background:#065f46;}
+.toast.error{background:#991b1b;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">🛵 Foodie <em>Driver</em></div>
+  <div class="online-toggle">
+    <span class="online-label" id="onlineLabel">Offline</span>
+    <label class="switch">
+      <input type="checkbox" id="onlineToggle" onchange="toggleOnline()"/>
+      <span class="slider"></span>
+    </label>
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="status-item"><div class="status-val" id="statToday">£0</div><div class="status-lbl">Today</div></div>
+  <div class="status-item"><div class="status-val" id="statDeliveries">0</div><div class="status-lbl">Deliveries</div></div>
+  <div class="status-item"><div class="status-val" id="statRating">5.0</div><div class="status-lbl">Rating</div></div>
+  <div class="status-item"><div class="status-val" id="statOnline">0h</div><div class="status-lbl">Online</div></div>
+</div>
+
+<!-- MAP -->
+<div class="map-area">
+  <div class="map-pin" id="mapPin" style="display:none">📍</div>
+  <div style="font-size:32px">🗺️</div>
+  <div class="map-label">Go online to see delivery opportunities</div>
+  <button class="map-gps" onclick="centerLocation()">📍 My location</button>
+</div>
+
+<!-- CONTENT (pages) -->
+<div class="content" id="mainContent">
+  <!-- DASHBOARD TAB -->
+  <div id="tab-home">
+
+    <div class="earnings-card">
+      <div class="earnings-label">Today's earnings</div>
+      <div class="earnings-amount" id="earningsAmount">£0.00</div>
+      <div class="earnings-sub">Updated just now</div>
+      <div class="earnings-grid">
+        <div class="earnings-stat"><div class="e-stat-val" id="eDeliveries">0</div><div class="e-stat-lbl">Deliveries</div></div>
+        <div class="earnings-stat"><div class="e-stat-val" id="eAvg">£0</div><div class="e-stat-lbl">Avg / delivery</div></div>
+      </div>
+    </div>
+
+    <!-- ACTIVE ORDER -->
+    <div id="activeOrderSection" style="display:none;margin-bottom:20px">
+      <div class="section-title">🚀 Active delivery</div>
+      <div class="order-card" id="activeOrderCard"></div>
+    </div>
+
+    <!-- NEW ORDERS -->
+    <div id="newOrdersSection">
+      <div class="section-title" id="newOrdersTitle">Go online to receive orders</div>
+      <div id="newOrdersList"></div>
+    </div>
+
+  </div>
+
+  <!-- HISTORY TAB -->
+  <div id="tab-history" style="display:none">
+    <div class="section-title">Delivery history</div>
+    <div id="historyList">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- EARNINGS TAB -->
+  <div id="tab-earnings" style="display:none">
+    <div class="section-title">Earnings</div>
+    <div class="earnings-card" style="margin-bottom:20px">
+      <div class="earnings-label">This week</div>
+      <div class="earnings-amount">£284.50</div>
+      <div class="earnings-sub">14 deliveries · Mon–Sun</div>
+    </div>
+    <div style="background:white;border-radius:16px;border:1.5px solid var(--border);padding:20px;margin-bottom:14px">
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:16px">Weekly breakdown</div>
+      ${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d,i) => `
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span style="font-size:13px;color:var(--muted);width:30px">${d}</span>
+          <div style="flex:1;height:6px;background:#f3f4f6;border-radius:3px">
+            <div style="height:6px;background:var(--primary);border-radius:3px;width:${[30,60,45,80,90,75,20][i]}%"></div>
+          </div>
+          <span style="font-size:13px;font-weight:600;width:44px;text-align:right">£${[18,36,27,48,54,45,12][i]}</span>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+
+  <!-- PROFILE TAB -->
+  <div id="tab-profile" style="display:none">
+    <div style="text-align:center;padding:24px 0 20px">
+      <div style="font-size:56px;margin-bottom:8px">🛵</div>
+      <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700" id="profileName">Driver Name</div>
+      <div style="font-size:14px;color:var(--muted)">⭐ 5.0 · 47 deliveries</div>
+    </div>
+    <div style="display:grid;gap:10px">
+      <div style="background:white;border-radius:12px;border:1px solid var(--border);padding:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showToast('Profile edit coming soon','info')">
+        <span style="font-weight:500">Edit profile</span><span>›</span>
+      </div>
+      <div style="background:white;border-radius:12px;border:1px solid var(--border);padding:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showToast('Vehicle info coming soon','info')">
+        <span style="font-weight:500">Vehicle info</span><span>›</span>
+      </div>
+      <div style="background:white;border-radius:12px;border:1px solid var(--border);padding:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showToast('Documents coming soon','info')">
+        <span style="font-weight:500">Documents</span><span>›</span>
+      </div>
+      <div style="background:white;border-radius:12px;border:1px solid var(--border);padding:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="showToast('Bank account coming soon','info')">
+        <span style="font-weight:500">Bank account</span><span>›</span>
+      </div>
+      <button class="btn-full" style="background:#fee2e2;color:var(--danger)" onclick="logout()">Log out</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="switchTab('home')"><span class="icon">🏠</span>Home</button>
+  <button class="nav-btn" id="nav-history" onclick="switchTab('history')"><span class="icon">📋</span>History</button>
+  <button class="nav-btn" id="nav-earnings" onclick="switchTab('earnings')"><span class="icon">💰</span>Earnings</button>
+  <button class="nav-btn" id="nav-profile" onclick="switchTab('profile')"><span class="icon">👤</span>Profile</button>
+</div>
+
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+let isOnline = false;
+let activeOrder = null;
+let todayEarnings = 0;
+let todayDeliveries = 0;
+let onlineMinutes = 0;
+let onlineInterval = null;
+let orderSimInterval = null;
+
+const mockAvailableOrders = [
+  { id:'o1', order_number:'FD8K2P', restaurant:'Burger Palace', rest_addr:'12 High Street', dest_addr:'45 Oak Avenue, N1 2AB', items:3, distance:'1.2km', time:'8 min', earn:5.80, emoji:'🍔' },
+  { id:'o2', order_number:'FD9L3Q', restaurant:'Pizza Roma', rest_addr:'8 Market Lane', dest_addr:'92 Park Road, E5 3CD', items:2, distance:'2.1km', time:'14 min', earn:7.40, emoji:'🍕' },
+];
+
+const mockHistory = [
+  { id:'h1', order_number:'FDAB4R', restaurant:'Sushi Zen', dest:'Canary Wharf', earn:8.20, time:'Today, 14:32', rating:5 },
+  { id:'h2', order_number:'FDCD5S', restaurant:'Crispy Wings', dest:'Shoreditch', earn:5.50, time:'Today, 12:15', rating:5 },
+  { id:'h3', order_number:'FDEF6T', restaurant:'Dragon Wok', dest:'Hackney', earn:6.90, time:'Yesterday, 19:42', rating:4 },
+];
+
+window.onload = function() {
+  renderHistory();
+};
+
+function toggleOnline() {
+  isOnline = document.getElementById('onlineToggle').checked;
+  document.getElementById('onlineLabel').textContent = isOnline ? 'Online' : 'Offline';
+  document.getElementById('mapPin').style.display = isOnline ? 'block' : 'none';
+
+  if (isOnline) {
+    showToast('You are now online! 🟢', 'success');
+    document.getElementById('newOrdersTitle').textContent = '📦 Available orders';
+    renderAvailableOrders();
+    startOnlineTimer();
+  } else {
+    showToast('You are now offline', 'error');
+    document.getElementById('newOrdersTitle').textContent = 'Go online to receive orders';
+    document.getElementById('newOrdersList').innerHTML = '';
+    stopOnlineTimer();
+  }
+}
+
+function renderAvailableOrders() {
+  const list = document.getElementById('newOrdersList');
+  list.innerHTML = mockAvailableOrders.map(o => `
+    <div class="order-card new-order" id="order-${o.id}">
+      <div class="order-header">
+        <span class="order-num">#${o.order_number}</span>
+        <span class="order-earn">+£${o.earn.toFixed(2)}</span>
+      </div>
+      <div class="order-rest">
+        <span class="order-rest-icon">${o.emoji}</span>
+        <div>
+          <div class="order-rest-name">${o.restaurant}</div>
+          <div class="order-rest-addr">📍 ${o.rest_addr}</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="order-dest">
+        <div class="dest-icon">🏠</div>
+        <div class="dest-info">
+          <div class="dest-label">DELIVER TO</div>
+          <div class="dest-addr">${o.dest_addr}</div>
+        </div>
+      </div>
+      <div class="order-meta">
+        <span class="meta-item">📦 ${o.items} items</span>
+        <span class="meta-item">📏 ${o.distance}</span>
+        <span class="meta-item">⏱️ ~${o.time}</span>
+      </div>
+      <div class="order-actions">
+        <button class="btn btn-danger" onclick="rejectOrder('${o.id}')">Decline</button>
+        <button class="btn btn-primary" onclick="acceptOrder('${o.id}')">Accept ✓</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function acceptOrder(id) {
+  const order = mockAvailableOrders.find(o => o.id === id);
+  if (!order) return;
+  activeOrder = { ...order, status: 'picking_up' };
+
+  document.getElementById('newOrdersList').innerHTML = '';
+  document.getElementById('newOrdersTitle').textContent = 'No new orders nearby';
+  document.getElementById('activeOrderSection').style.display = 'block';
+
+  renderActiveOrder();
+  showToast('Order accepted! Head to the restaurant 🏍️', 'success');
+}
+
+function rejectOrder(id) {
+  document.getElementById('order-' + id).remove();
+  showToast('Order declined', 'info');
+}
+
+function renderActiveOrder() {
+  if (!activeOrder) return;
+  const steps = ['picking_up', 'picked_up', 'delivering', 'delivered'];
+  const stepIdx = steps.indexOf(activeOrder.status);
+
+  document.getElementById('activeOrderCard').innerHTML = `
+    <div class="order-header">
+      <span class="order-num">#${activeOrder.order_number}</span>
+      <span class="order-earn">+£${activeOrder.earn.toFixed(2)}</span>
+    </div>
+    <div class="step-indicator">
+      ${['Heading to restaurant','Picked up','On the way','Delivered'].map((lbl,i) => `
+        <div class="step ${i < stepIdx ? 'done' : i === stepIdx ? 'active' : ''}">
+          <div class="step-dot">${i < stepIdx ? '✓' : i+1}</div>
+          <div class="step-lbl">${lbl}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="order-rest" style="margin-top:12px">
+      <span class="order-rest-icon">${activeOrder.emoji}</span>
+      <div>
+        <div class="order-rest-name">${activeOrder.restaurant}</div>
+        <div class="order-rest-addr">📍 ${activeOrder.rest_addr}</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="order-dest">
+      <div class="dest-icon">🏠</div>
+      <div class="dest-info">
+        <div class="dest-label">DELIVER TO</div>
+        <div class="dest-addr">${activeOrder.dest_addr}</div>
+      </div>
+    </div>
+    ${getActiveOrderButton()}
+  `;
+}
+
+function getActiveOrderButton() {
+  const actions = {
+    picking_up: `<button class="btn-full" onclick="nextOrderStep()">✓ Picked up order</button>`,
+    picked_up: `<button class="btn-full" onclick="nextOrderStep()">🛵 Start delivery</button>`,
+    delivering: `<button class="btn-full" onclick="nextOrderStep()">✅ Mark as delivered</button>`,
+  };
+  return actions[activeOrder.status] || '';
+}
+
+function nextOrderStep() {
+  const steps = ['picking_up', 'picked_up', 'delivering', 'delivered'];
+  const idx = steps.indexOf(activeOrder.status);
+  if (idx < steps.length - 1) {
+    activeOrder.status = steps[idx + 1];
+    if (activeOrder.status === 'delivered') {
+      completeDelivery();
+    } else {
+      renderActiveOrder();
+      const msgs = { picked_up: 'Order picked up! Head to customer 🏍️', delivering: 'On the way! 🚀' };
+      showToast(msgs[activeOrder.status], 'success');
+    }
+  }
+}
+
+function completeDelivery() {
+  todayEarnings += activeOrder.earn;
+  todayDeliveries++;
+  mockHistory.unshift({ id:'new'+Date.now(), order_number:activeOrder.order_number, restaurant:activeOrder.restaurant, dest:'Delivered', earn:activeOrder.earn, time:'Just now', rating:5 });
+
+  document.getElementById('activeOrderSection').style.display = 'none';
+  document.getElementById('activeOrderCard').innerHTML = '';
+  document.getElementById('statToday').textContent = '£' + todayEarnings.toFixed(0);
+  document.getElementById('statDeliveries').textContent = todayDeliveries;
+  document.getElementById('earningsAmount').textContent = '£' + todayEarnings.toFixed(2);
+  document.getElementById('eDeliveries').textContent = todayDeliveries;
+  document.getElementById('eAvg').textContent = '£' + (todayEarnings / todayDeliveries).toFixed(0);
+
+  activeOrder = null;
+  showToast(`Delivery complete! +£${mockAvailableOrders[0].earn.toFixed(2)} earned 🎉`, 'success');
+  renderHistory();
+
+  if (isOnline) {
+    setTimeout(() => {
+      document.getElementById('newOrdersTitle').textContent = '📦 Available orders';
+      renderAvailableOrders();
+    }, 1500);
+  }
+}
+
+function renderHistory() {
+  document.getElementById('historyList').innerHTML = mockHistory.map(h => `
+    <div class="history-item">
+      <div class="history-icon">📦</div>
+      <div class="history-info">
+        <div style="font-weight:600">${h.restaurant}</div>
+        <div style="font-size:12px;color:var(--muted)">#${h.order_number} · ${h.time}</div>
+        <div style="font-size:12px;margin-top:2px">${'⭐'.repeat(h.rating)}</div>
+      </div>
+      <div class="history-earn">+£${h.earn.toFixed(2)}</div>
+    </div>
+  `).join('');
+}
+
+function startOnlineTimer() {
+  onlineInterval = setInterval(() => {
+    onlineMinutes++;
+    const h = Math.floor(onlineMinutes / 60);
+    const m = onlineMinutes % 60;
+    document.getElementById('statOnline').textContent = h > 0 ? `${h}h${m}m` : `${m}m`;
+  }, 60000);
+}
+
+function stopOnlineTimer() {
+  clearInterval(onlineInterval);
+}
+
+function centerLocation() {
+  showToast('📍 Location centered', 'info');
+}
+
+function switchTab(tab) {
+  ['home','history','earnings','profile'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = 'none';
+    document.getElementById('nav-'+t).classList.remove('active');
+  });
+  document.getElementById('tab-'+tab).style.display = 'block';
+  document.getElementById('nav-'+tab).classList.add('active');
+}
+
+function logout() {
+  localStorage.removeItem('auth_token');
+  window.location.href = '/customer/';
+}
+
+function showToast(msg, type='info') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(() => t.remove(), 300); }, 3500);
+}
+</script>
+</body>
+</html>

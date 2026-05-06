@@ -305,7 +305,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Inspired by [Deliveroo](https://deliveroo.com)
 - Built with [Go Fiber](https://gofiber.io)
 - Hosted on [Cloudflare](https://cloudflare.com)
 

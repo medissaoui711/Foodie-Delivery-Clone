@@ -9,9 +9,11 @@
 ## 📁 الملفات المُنشأة
 
 ### 1. 📄 README_GITHUB.md
+
 **الموقع**: `README_GITHUB.md`  
 **الوصف**: README احترافي للـ GitHub Repository  
 **المحتويات**:
+
 - شارات البناء (Badges) - Go, Fiber, PostgreSQL, Redis
 - وصف المشروع والمميزات
 - هندسة النظام
@@ -23,6 +25,7 @@
 - License
 
 **كيفية الاستخدام**:
+
 ```bash
 # نسخه كـ README.md الرئيسي
 copy README_GITHUB.md README.md
@@ -31,9 +34,11 @@ copy README_GITHUB.md README.md
 ---
 
 ### 2. ⚙️ wrangler.toml
+
 **الموقع**: `wrangler.toml`  
 **الوصف**: إعدادات Cloudflare Workers  
 **المحتويات**:
+
 - إعدادات المشروع
 - Frontend Pages Projects (4 تطبيقات)
 - Routes Configuration
@@ -42,6 +47,7 @@ copy README_GITHUB.md README.md
 - Environment Variables
 
 **كيفية الاستخدام**:
+
 ```bash
 wrangler deploy --config wrangler.toml
 ```
@@ -51,8 +57,10 @@ wrangler deploy --config wrangler.toml
 ### 3. 🔄 CI/CD Workflows
 
 #### `.github/workflows/ci.yml`
+
 **الوصف**: اختبارات CI  
 **المحتويات**:
+
 - Unit Tests مع PostgreSQL و Redis
 - Linting with golangci-lint
 - Build verification
@@ -61,14 +69,17 @@ wrangler deploy --config wrangler.toml
 - Code coverage upload
 
 #### `.github/workflows/deploy-cloudflare.yml`
+
 **الوصف**: نشر CD على Cloudflare  
 **المحتويات**:
+
 - Deploy Frontend to Pages (4 تطبيقات)
 - Deploy Backend to Workers
 - Secrets management
 - Notification summary
 
 **كيفية الاستخدام**:
+
 ```bash
 # push إلى main يشغل CI/CD تلقائياً
 git push origin main
@@ -77,9 +88,11 @@ git push origin main
 ---
 
 ### 4. 🤝 CONTRIBUTING.md
+
 **الموقع**: `CONTRIBUTING.md`  
 **الوصف**: دليل المساهمة في المشروع  
 **المحتويات**:
+
 - Code of Conduct
 - إعداد بيئة التطوير
 - كيفية الإبلاغ عن الأخطاء
@@ -89,84 +102,101 @@ git push origin main
 - Issue Labels
 
 **كيفية الاستخدام**:
+
 - يظهر تلقائياً في GitHub عند إنشاء Pull Request
 - يساعد المساهمين الجدد
 
 ---
 
 ### 5. 📜 LICENSE
+
 **الموقع**: `LICENSE`  
 **الوصف**: رخصة MIT  
 **المحتويات**:
+
 - MIT License text
 - Copyright 2026 Foodie Team
 
 **كيفية الاستخدام**:
+
 - يظهر تلقائياً في GitHub
 - يسمح باستخدام الكود بحرية
 
 ---
 
 ### 6. 🚀 DEPLOYMENT.md
+
 **الموقع**: `DEPLOYMENT.md`  
 **الوصف**: دليل النشر الكامل على Cloudflare (بالعربية)  
 **المحتويات**:
 
 #### المرحلة 1: إعداد Cloudflare
+
 - إنشاء حساب Cloudflare
 - الحصول على API Token
 - الحصول على Account ID
 
 #### المرحلة 2: إعداد Wrangler CLI
+
 - تثبيت Wrangler
 - تسجيل الدخول
 
 #### المرحلة 3: نشر Frontend
+
 - إنشاء Projects على Pages
 - النشر اليدوي
 - إعداد Custom Domain
 
 #### المرحلة 4: نشر Backend
+
 - تعديل الكود للـ Workers
 - إعداد wrangler.toml
 - بناء ونشر WASM
 - إضافة Secrets
 
 #### المرحلة 5: CI/CD مع GitHub Actions
+
 - إضافة Secrets على GitHub
 - إنشاء Workflows
 - تشغيل CI/CD
 
 #### المرحلة 6: قاعدة البيانات
+
 - PostgreSQL على Supabase (مجاني)
 - Redis على Upstash (مجاني)
 - تهيئة الجداول
 
 #### المرحلة 7: النطاق المخصص
+
 - إضافة النطاق إلى Cloudflare
 - إعداد DNS Records
 - إعداد SSL/TLS
 
 #### المرحلة 8: الأمان
+
 - Workers Security
 - CORS Configuration
 - WAF Rules
 
 #### المرحلة 9: المراقبة
+
 - Cloudflare Analytics
 - Custom Analytics
 
 #### المرحلة 10: الاختبار
+
 - فحص النقاط المهمة
 - Lighthouse CI
 
 #### استكشاف الأخطاء
+
 - Build Fails
 - Secrets Not Found
 - Database Connection Failed
 - CORS Errors
 
 #### نصائح الإنتاج
+
 - الأداء (Brotli, Auto Minify)
 - الأمان (Bot Fight Mode, Access)
 - التكلفة (الحد المجاني)
@@ -174,9 +204,11 @@ git push origin main
 ---
 
 ### 7. 📊 PROJECT_REPORT.md
+
 **الموقع**: `PROJECT_REPORT.md`  
 **الوصف**: تقرير شامل عن المشروع  
 **المحتويات**:
+
 - نظرة عامة
 - هندسة النظام
 - هيكل الملفات
@@ -193,6 +225,7 @@ git push origin main
 ## 🎯 خطوات رفع المشروع على GitHub
 
 ### 1. إنشاء Repository جديد
+
 ```bash
 # على GitHub
 # اذهب إلى github.com/new
@@ -201,6 +234,7 @@ git push origin main
 ```
 
 ### 2. رفع الملفات
+
 ```bash
 # في المجلد المحلي
 cd c:\Users\DELL\Desktop\deliveroo-clone
@@ -209,7 +243,7 @@ cd c:\Users\DELL\Desktop\deliveroo-clone
 git init
 
 # إضافة Remote
-git remote add origin https://github.com/YOUR_USERNAME/foodie.git
+git remote add origin https://github.com/medissaoui711/Foodie-Delivery-Clone.git
 
 # نسخ README الاحترافي
 copy README_GITHUB.md README.md
@@ -232,6 +266,7 @@ git push -u origin main
 ```
 
 ### 3. إعداد GitHub Secrets
+
 ```bash
 # في GitHub: Settings → Secrets and variables → Actions
 
@@ -244,6 +279,7 @@ STRIPE_SECRET_KEY=your-stripe-key
 ```
 
 ### 4. تفعيل GitHub Pages (اختياري)
+
 ```bash
 # في GitHub: Settings → Pages
 # Source: Deploy from a branch
@@ -255,12 +291,14 @@ STRIPE_SECRET_KEY=your-stripe-key
 ## ☁️ خطوات النشر على Cloudflare
 
 ### 1. تثبيت Wrangler
+
 ```bash
 npm install -g wrangler
 wrangler login
 ```
 
 ### 2. نشر Frontend
+
 ```bash
 # Customer App
 cd frontend/customer
@@ -280,6 +318,7 @@ wrangler pages deploy . --project-name=foodie-admin
 ```
 
 ### 3. نشر Backend
+
 ```bash
 cd backend
 wrangler deploy --config wrangler.toml
@@ -290,6 +329,7 @@ echo "db-url" | wrangler secret put DATABASE_URL
 ```
 
 ### 4. النشر التلقائي (GitHub Actions)
+
 ```bash
 # كل push إلى main ينشر تلقائياً!
 git push origin main
@@ -300,6 +340,7 @@ git push origin main
 ## 📋 قائمة المراجعة قبل النشر
 
 ### ✅ GitHub
+
 - [ ] Repository منشأ
 - [ ] README.md مُحدث
 - [ ] LICENSE مضاف
@@ -309,6 +350,7 @@ git push origin main
 - [ ] CI/CD workflows نشطة
 
 ### ✅ Cloudflare
+
 - [ ] حساب Cloudflare منشأ
 - [ ] API Token تم إنشاؤه
 - [ ] Wrangler CLI مُثبت
@@ -320,6 +362,7 @@ git push origin main
 - [ ] SSL/TLS مفعل
 
 ### ✅ التطبيق
+
 - [ ] Health Check يعمل
 - [ ] Auth endpoints تعمل
 - [ ] Frontend يتصل بالـ API
@@ -331,32 +374,36 @@ git push origin main
 ## 🔗 الروابط المتوقعة بعد النشر
 
 ### Cloudflare Pages
+
 | التطبيق | الرابط |
 |---------|--------|
-| Customer | https://foodie-customer.pages.dev |
-| Restaurant | https://foodie-restaurant.pages.dev |
-| Driver | https://foodie-driver.pages.dev |
-| Admin | https://foodie-admin.pages.dev |
+| Customer | <https://foodie-customer.pages.dev> |
+| Restaurant | <https://foodie-restaurant.pages.dev> |
+| Driver | <https://foodie-driver.pages.dev> |
+| Admin | <https://foodie-admin.pages.dev> |
 
 ### Cloudflare Workers
+
 | الخدمة | الرابط |
 |--------|--------|
-| API | https://foodie-api.YOUR_ACCOUNT.workers.dev |
+| API | <https://foodie-api.YOUR_ACCOUNT.workers.dev> |
 
 ### Custom Domain (اختياري)
+
 | التطبيق | الرابط |
 |---------|--------|
-| Customer | https://app.yourdomain.com |
-| Restaurant | https://restaurant.yourdomain.com |
-| Driver | https://driver.yourdomain.com |
-| Admin | https://admin.yourdomain.com |
-| API | https://api.yourdomain.com |
+| Customer | <https://app.yourdomain.com> |
+| Restaurant | <https://restaurant.yourdomain.com> |
+| Driver | <https://driver.yourdomain.com> |
+| Admin | <https://admin.yourdomain.com> |
+| API | <https://api.yourdomain.com> |
 
 ---
 
 ## 💰 التكلفة المتوقعة
 
 ### المجانية (Free Tier)
+
 - Cloudflare Pages: مجاني (غير محدود)
 - Cloudflare Workers: 100,000 طلب/يوم
 - Supabase PostgreSQL: 500MB
@@ -366,6 +413,7 @@ git push origin main
 **الإجمالي: $0/شهر** ✅
 
 ### الإنتاج (Production)
+
 - Cloudflare Pro: $20/شهر
 - Workers Paid: $5 + $0.50/مليون طلب
 - Supabase Pro: $25/شهر
@@ -378,6 +426,7 @@ git push origin main
 ## 🎓 ما تم إنجازه
 
 ### التوثيق
+
 ✅ README احترافي للـ GitHub  
 ✅ CONTRIBUTING.md للمساهمين  
 ✅ LICENSE MIT  
@@ -385,12 +434,14 @@ git push origin main
 ✅ PROJECT_REPORT.md تقرير شامل  
 
 ### CI/CD
+
 ✅ CI workflow (اختبارات)  
 ✅ CD workflow (نشر Cloudflare)  
 ✅ Security scanning  
 ✅ Code coverage  
 
 ### Cloudflare
+
 ✅ wrangler.toml configuration  
 ✅ Pages projects (4 تطبيقات)  
 ✅ Workers backend  
@@ -400,9 +451,9 @@ git push origin main
 
 ## 📞 دعم إضافي
 
-- **Cloudflare Docs**: https://developers.cloudflare.com
-- **Go Fiber Docs**: https://docs.gofiber.io
-- **GitHub Actions Docs**: https://docs.github.com/actions
+- **Cloudflare Docs**: <https://developers.cloudflare.com>
+- **Go Fiber Docs**: <https://docs.gofiber.io>
+- **GitHub Actions Docs**: <https://docs.github.com/actions>
 - **Discord**: Cloudflare Developers Discord
 
 ---
@@ -410,6 +461,7 @@ git push origin main
 ## 🎉 الخلاصة
 
 تم إنشاء **7 ملفات توثيق احترافية**:
+
 1. README.md - GitHub Repository
 2. CONTRIBUTING.md - دليل المساهمة
 3. LICENSE - MIT License
@@ -425,6 +477,7 @@ git push origin main
 ✅ استقبال مساهمين  
 
 **كل ما تحتاجه الآن**:
+
 1. حساب GitHub
 2. حساب Cloudflare (مجاني)
 3. اتباع خطوات DEPLOYMENT.md

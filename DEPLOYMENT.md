@@ -387,16 +387,19 @@ psql $DATABASE_URL -c "SELECT 1"
 ## 💡 نصائح الإنتاج
 
 ### الأداء
+
 - فعل **Auto Minify** في Cloudflare
 - فعل **Brotli Compression**
 - استخدم **Cloudflare Images** للصور
 
 ### الأمان
+
 - فعل **Security Level: High**
 - فعل **Bot Fight Mode**
 - استخدم **Cloudflare Access** للـ Admin Panel
 
 ### التكلفة
+
 - الحد المجاني: 100,000 طلب/يوم
 - قاعدة البيانات: Supabase Free Tier (500MB)
 - Redis: Upstash Free Tier (10,000 commands/يوم)
@@ -405,9 +408,9 @@ psql $DATABASE_URL -c "SELECT 1"
 
 ## 📞 دعم
 
-- **Cloudflare Docs**: https://developers.cloudflare.com
-- **Discord Community**: https://discord.gg/cloudflare
-- **GitHub Issues**: https://github.com/yourusername/foodie/issues
+- **Cloudflare Docs**: <https://developers.cloudflare.com>
+- **Discord Community**: <https://discord.gg/cloudflare>
+- **GitHub Issues**: <https://github.com/medissaoui711/Foodie-Delivery-Clone/issues>
 
 ---
 

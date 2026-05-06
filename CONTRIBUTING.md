@@ -41,11 +41,11 @@ This project and everyone participating in it is governed by our Code of Conduct
 ```bash
 # 1. Fork the repository on GitHub
 # 2. Clone your fork
-git clone https://github.com/YOUR_USERNAME/foodie.git
+git clone https://github.com/medissaoui711/Foodie-Delivery-Clone.git
 cd foodie
 
 # 3. Add upstream remote
-git remote add upstream https://github.com/original/foodie.git
+git remote add upstream https://github.com/medissaoui711/Foodie-Delivery-Clone.git
 
 # 4. Create a branch
 git checkout -b feature/my-feature
@@ -158,6 +158,7 @@ func (u *User) GetByID(id string) (*User, error) {
 ```
 
 **Key points:**
+
 - Use `gofmt` for formatting
 - Use meaningful variable names
 - Add comments for exported functions
@@ -233,6 +234,7 @@ git commit -m "refactor(database): optimize connection pooling"
 ## 🔄 Pull Request Process
 
 1. **Update your fork**
+
    ```bash
    git fetch upstream
    git rebase upstream/main
@@ -244,6 +246,7 @@ git commit -m "refactor(database): optimize connection pooling"
    - Update documentation
 
 3. **Run tests locally**
+
    ```bash
    cd backend
    go test ./...
@@ -252,6 +255,7 @@ git commit -m "refactor(database): optimize connection pooling"
    ```
 
 4. **Push to your fork**
+
    ```bash
    git push origin feature/my-feature
    ```
@@ -313,6 +317,7 @@ We use labels to organize issues:
 ## 🙏 Recognition
 
 Contributors will be:
+
 - Listed in the README.md
 - Mentioned in release notes
 - Added to our contributors page
@@ -322,8 +327,9 @@ Contributors will be:
 ## ❓ Questions?
 
 If you have questions, feel free to:
+
 - Open an issue
 - Join our Discord community
-- Email us at: contribute@foodie.app
+- Email us at: <contacteinfo71@gmail.com>
 
 Thank you for contributing! 🎉

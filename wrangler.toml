@@ -1,51 +1,12 @@
-# Cloudflare Pages & Workers Configuration
-name = "foodie"
-main = "backend/cmd/server/main.go"
-compatibility_date = "2024-01-01"
+# Cloudflare Pages Configuration
+# This file configures Cloudflare Pages for static frontend hosting
+# Backend API should be deployed separately (see DEPLOYMENT.md)
 
-# Environment Variables
-[vars]
-APP_ENV = "production"
-PORT = "8080"
+# Note: Each frontend app is deployed separately as its own Pages project
+# Use wrangler CLI or GitHub Actions for deployment
 
-# Frontend Pages Configuration
-[[pages_build_output]]
-name = "foodie-customer"
-directory = "frontend/customer"
-
-[[pages_build_output]]
-name = "foodie-restaurant"
-directory = "frontend/restaurant"
-
-[[pages_build_output]]
-name = "foodie-driver"
-directory = "frontend/driver"
-
-[[pages_build_output]]
-name = "foodie-admin"
-directory = "frontend/admin"
-
-# Routes Configuration
-[[routes]]
-pattern = "api/*"
-zone_name = "foodie.pages.dev"
-
-[[routes]]
-pattern = "ws/*"
-zone_name = "foodie.pages.dev"
-
-# KV Namespaces for caching
-[[kv_namespaces]]
-binding = "CACHE"
-id = "your-kv-namespace-id"
-
-# Durable Objects (for WebSocket)
-[[durable_objects.bindings]]
-name = "WEBSOCKET_HUB"
-class_name = "WebSocketHub"
-
-# Environment Secrets (use `wrangler secret put`)
-# JWT_SECRET
-# DATABASE_URL
-# REDIS_URL
-# STRIPE_SECRET_KEY
+# Example deployment commands:
+# cd frontend/customer && wrangler pages deploy . --project-name=foodie-customer
+# cd frontend/restaurant && wrangler pages deploy . --project-name=foodie-restaurant
+# cd frontend/driver && wrangler pages deploy . --project-name=foodie-driver
+# cd frontend/admin && wrangler pages deploy . --project-name=foodie-admin

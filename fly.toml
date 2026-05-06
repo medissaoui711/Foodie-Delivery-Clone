@@ -1,0 +1,64 @@
+# Fly.io Deployment Configuration
+# Deploy your Go backend to Fly.io (great performance, generous free tier)
+# Website: https://fly.io
+# Docs: https://fly.io/docs/apps/deploy/
+
+app = "foodie-api"
+primary_region = "ams"  # Amsterdam - change to your preferred region
+
+[build]
+  dockerfile = "backend/Dockerfile"
+
+[env]
+  APP_ENV = "production"
+  PORT = "8080"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+  
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+  
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 512  # Increase for production
+
+# Environment variables to set with:
+# flyctl secrets set DATABASE_URL="postgres://..."
+# flyctl secrets set REDIS_URL="redis://..."
+# flyctl secrets set JWT_SECRET="your-secret"
+# flyctl secrets set JWT_REFRESH_SECRET="your-refresh-secret"
+# flyctl secrets set STRIPE_SECRET_KEY="sk_test_..."
+
+# To deploy:
+# 1. Install flyctl: https://fly.io/docs/hands-on/install-flyctl/
+# 2. flyctl auth login
+# 3. flyctl launch (first time) or flyctl deploy
+# 4. flyctl postgres create (for database)
+# 5. flyctl redis create (for cache)

@@ -35,58 +35,19 @@ jobs:
             --project-name=foodie-${{ matrix.app }} \
             --branch=main
 
-  deploy-backend:
-    name: Deploy Backend to Workers
-    runs-on: ubuntu-latest
-    needs: deploy-frontend
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: "1.23"
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install Wrangler
-        run: npm install -g wrangler
-
-      - name: Build Go binary for WASM
-        working-directory: ./backend
-        run: |
-          GOOS=js GOARCH=wasm go build -o ../dist/main.wasm ./cmd/server
-
-      - name: Deploy to Cloudflare Workers
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          wrangler deploy --config wrangler.toml
-
-      - name: Set secrets
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: |
-          echo "${{ secrets.JWT_SECRET }}" | wrangler secret put JWT_SECRET
-          echo "${{ secrets.DATABASE_URL }}" | wrangler secret put DATABASE_URL
-          echo "${{ secrets.REDIS_URL }}" | wrangler secret put REDIS_URL
-          echo "${{ secrets.STRIPE_SECRET_KEY }}" | wrangler secret put STRIPE_SECRET_KEY
+  # Note: Backend (Go) cannot be deployed to Cloudflare Workers
+  # Deploy backend to Railway, Render, or Fly.io instead
+  # See DEPLOYMENT.md for instructions
 
   deploy-notify:
     name: Notify Deployment
     runs-on: ubuntu-latest
-    needs: [deploy-frontend, deploy-backend]
+    needs: deploy-frontend
 
     steps:
       - name: Deployment Summary
         run: |
-          echo "✅ Deployment completed successfully!"
+          echo "✅ Frontend deployed successfully!"
           echo ""
           echo "🌐 Frontend URLs:"
           echo "  - Customer: https://foodie-customer.pages.dev"
@@ -94,5 +55,4 @@ jobs:
           echo "  - Driver: https://foodie-driver.pages.dev"
           echo "  - Admin: https://foodie-admin.pages.dev"
           echo ""
-          echo "🔌 Backend API:"
-          echo "  - https://foodie-api.pages.dev/api/v1/"
+          echo "⚠️ Note: Backend must be deployed separately to Railway, Render, or Fly.io"

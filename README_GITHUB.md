@@ -63,22 +63,20 @@
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    Cloudflare Workers                       │
-│                     (API Gateway / Edge)                      │
+│              Railway / Render / Fly.io                      │
+│                  (Go Backend + Docker)                      │
+├─────────────────────────────────────────────────────────────┤
+│  ┌───────────┐    ┌─────────────┐    ┌───────────┐        │
+│  │   Go API  │    │  WebSocket  │    │  Redis    │        │
+│  │  (Docker) │    │    Server   │    │   Cache   │        │
+│  └─────┬─────┘    └─────────────┘    └───────────┘        │
+│        │                                                    │
+│        ▼                                                    │
+│  ┌─────────────┐                                            │
+│  │  PostgreSQL │                                            │
+│  │   (Docker)  │                                            │
+│  └─────────────┘                                            │
 └─────────────────────────────────────────────────────────────┘
-                              │
-            ┌─────────────────┼─────────────────┐
-            ▼                 ▼                 ▼
-    ┌───────────┐    ┌─────────────┐    ┌───────────┐
-    │   Go API  │    │  WebSocket  │    │  Redis    │
-    │  (Docker) │    │    Server   │    │   Cache   │
-    └─────┬─────┘    └─────────────┘    └───────────┘
-          │
-          ▼
-    ┌─────────────┐
-    │  PostgreSQL │
-    │   (Docker)  │
-    └─────────────┘
 ```
 
 ---
@@ -224,14 +222,40 @@ cd ../restaurant
 wrangler pages deploy . --project-name=foodie-restaurant
 ```
 
-### 🐳 Deploy Backend to Cloudflare Workers
+### 🐳 Deploy Backend (Go API)
+
+**Note:** Go backend cannot be deployed to Cloudflare Workers. Use one of these platforms:
+
+**Option 1: Railway (Easiest)**
 
 ```bash
-# Build Go binary for Workers
-GOOS=js GOARCH=wasm go build -o main.wasm ./cmd/server
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login and deploy
+cd backend
+railway login
+railway link
+railway up
+```
+
+**Option 2: Render**
+
+```bash
+# Deploy using render.yaml configuration
+# Just push to GitHub and connect repo to Render
+```
+
+**Option 3: Fly.io**
+
+```bash
+# Install Flyctl
+# https://fly.io/docs/hands-on/install-flyctl/
 
 # Deploy
-wrangler deploy
+cd backend
+flyctl launch
+flyctl deploy
 ```
 
 ### 🚀 Deploy to VPS (Production)

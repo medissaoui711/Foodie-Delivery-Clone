@@ -6,7 +6,7 @@
 [![Redis](https://img.shields.io/badge/Redis-7-dc382d.svg)](https://redis.io)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-> 🚀 **A production-ready food delivery platform inspired by Delivery**
+> 🚀 **A production-ready food delivery platform inspired by Deliveroo**
 
 [Live Demo](https://foodie-demo.pages.dev) • [API Docs](#api-documentation) • [Deployment Guide](#-deployment)
 
@@ -63,22 +63,20 @@
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    Cloudflare Workers                       │
-│                     (API Gateway / Edge)                      │
+│              Railway / Render / Fly.io                      │
+│                  (Go Backend + Docker)                      │
+├─────────────────────────────────────────────────────────────┤
+│  ┌───────────┐    ┌─────────────┐    ┌───────────┐        │
+│  │   Go API  │    │  WebSocket  │    │  Redis    │        │
+│  │  (Docker) │    │    Server   │    │   Cache   │        │
+│  └─────┬─────┘    └─────────────┘    └───────────┘        │
+│        │                                                    │
+│        ▼                                                    │
+│  ┌─────────────┐                                            │
+│  │  PostgreSQL │                                            │
+│  │   (Docker)  │                                            │
+│  └─────────────┘                                            │
 └─────────────────────────────────────────────────────────────┘
-                              │
-            ┌─────────────────┼─────────────────┐
-            ▼                 ▼                 ▼
-    ┌───────────┐    ┌─────────────┐    ┌───────────┐
-    │   Go API  │    │  WebSocket  │    │  Redis    │
-    │  (Docker) │    │    Server   │    │   Cache   │
-    └─────┬─────┘    └─────────────┘    └───────────┘
-          │
-          ▼
-    ┌─────────────┐
-    │  PostgreSQL │
-    │   (Docker)  │
-    └─────────────┘
 ```
 
 ---
@@ -95,7 +93,7 @@
 
 ```bash
 git clone https://github.com/medissaoui711/Foodie-Delivery-Clone.git
-cd Foodie-Delivery-Clone
+cd foodie
 ```
 
 ### 2. Setup Environment
@@ -224,14 +222,40 @@ cd ../restaurant
 wrangler pages deploy . --project-name=foodie-restaurant
 ```
 
-### 🐳 Deploy Backend to Cloudflare Workers
+### 🐳 Deploy Backend (Go API)
+
+**Note:** Go backend cannot be deployed to Cloudflare Workers. Use one of these platforms:
+
+**Option 1: Railway (Easiest)**
 
 ```bash
-# Build Go binary for Workers
-GOOS=js GOARCH=wasm go build -o main.wasm ./cmd/server
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login and deploy
+cd backend
+railway login
+railway link
+railway up
+```
+
+**Option 2: Render**
+
+```bash
+# Deploy using render.yaml configuration
+# Just push to GitHub and connect repo to Render
+```
+
+**Option 3: Fly.io**
+
+```bash
+# Install Flyctl
+# https://fly.io/docs/hands-on/install-flyctl/
 
 # Deploy
-wrangler deploy
+cd backend
+flyctl launch
+flyctl deploy
 ```
 
 ### 🚀 Deploy to VPS (Production)
@@ -239,7 +263,7 @@ wrangler deploy
 ```bash
 # Clone on server
 git clone https://github.com/medissaoui711/Foodie-Delivery-Clone.git
-cd deliveroo-clone
+cd foodie
 
 # Setup environment
 cp .env.example .env
@@ -321,6 +345,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
+- Inspired by [Delivery]
 - Built with [Go Fiber](https://gofiber.io)
 - Hosted on [Cloudflare](https://cloudflare.com)
 

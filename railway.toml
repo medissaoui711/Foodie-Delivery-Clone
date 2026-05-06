@@ -1,0 +1,26 @@
+# Railway.app Deployment Configuration
+# Deploy your Go backend to Railway (easiest option for Go)
+# Website: https://railway.app
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "backend/Dockerfile"
+
+[deploy]
+startCommand = "./server"
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+[environments]
+production = true
+
+# Environment variables to set in Railway Dashboard:
+# - APP_ENV=production
+# - PORT=8080
+# - DATABASE_URL=${{Postgres.DATABASE_URL}}
+# - REDIS_URL=${{Redis.REDIS_URL}}
+# - JWT_SECRET=(generate strong secret)
+# - JWT_REFRESH_SECRET=(generate strong secret)
+# - STRIPE_SECRET_KEY=sk_test_...

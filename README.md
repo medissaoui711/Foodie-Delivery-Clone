@@ -8,7 +8,7 @@
 
 > 🚀 **A production-ready food delivery platform inspired by Deliveroo**
 
-[Live Demo](https://foodie-demo.pages.dev) • [API Docs](#api-documentation) • [Deployment Guide](#-deployment)
+🌐 **Live Apps:** [Customer](https://738f36a8.foodelivery-customer.pages.dev) • [Restaurant](https://d87ade08.foodelivery-restaurant.pages.dev) • [Driver](https://d1d39180.foodelivery-driver.pages.dev) • [API Docs](#api-documentation) • [Deployment Guide](#-deployment)
 
 ![Architecture Diagram](docs/architecture.png)
 
